@@ -1,0 +1,99 @@
+---
+title: "google capstone 2"
+author: "Amal"
+date: "2024-04-02"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Install and load the tidyverse
+
+```{r package}
+options(repos = "https://cran.rstudio.com/")
+ install.packages('tidyverse')
+ library(tidyverse)
+```
+```{r Create data frame}
+daily_activity <- read.csv("dailyActivity_merged.csv")
+```
+
+```{r next data frame}
+sleep_day <- read.csv("sleepDay_merged.csv")
+```
+
+```{r take look the data }
+head(daily_activity)
+```
+identify columns
+```{r colnames}
+colnames(daily_activity)
+```
+
+
+```{r}
+head(sleep_day)
+```
+
+```{r}
+colnames(sleep_day)
+```
+
+ How many unique participants are there in each dataframe? It looks like there may be more participants in the daily activity
+dataset than the sleep dataset.
+```{r}
+n_distinct(daily_activity$Id)
+n_distinct(sleep_day$Id)
+```
+ How many observations are there in each dataframe?
+```{r}
+
+nrow(daily_activity)
+```
+```{r}
+nrow(sleep_day)
+```
+ What are some quick summary statistics we'd want to know about each data frame?
+ For the daily activity dataframe:
+```{r}
+
+daily_activity %>%
+select(TotalSteps,
+TotalDistance,
+SedentaryMinutes) %>%
+summary()
+```
+
+# For the sleep dataframe:
+```{r}
+sleep_day %>%
+select(TotalSleepRecords,
+TotalMinutesAsleep,
+TotalTimeInBed) %>%
+summary()
+```
+ What's the relationship between steps taken in a day and sedentary minutes?
+ How could this help inform the customer segments that we can market to?
+ E.g. position this more as a way to get started in walking more?
+Or to measure steps that you're already taking?
+```{r}
+ggplot(data=daily_activity, aes(x=TotalSteps, y=SedentaryMinutes)) + geom_point()
+```
+You might expect it to be almost completely linear - are there any unexpected trends?
+```{r}
+ggplot(data=sleep_day, aes(x=TotalMinutesAsleep, y=TotalTimeInBed)) + geom_point()
+```
+
+merging two dataset together
+```{r}
+combined_data <- merge(sleep_day, daily_activity, by="Id")
+```
+
+Take a look at how many participants are in this data set.
+```{r}
+n_distinct(combined_data$Id)
+```
+

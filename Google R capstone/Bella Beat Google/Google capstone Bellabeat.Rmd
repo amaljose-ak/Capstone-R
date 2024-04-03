@@ -1,0 +1,19 @@
+---
+title: "Google Capstone 2"
+author: "Amal"
+date: "2024-04-02"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Install and load the tidyverse
+```{r}
+
+install.packages('tidyverse')
+library(tidyverse)
+```
+
